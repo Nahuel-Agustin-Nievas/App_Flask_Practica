@@ -126,11 +126,12 @@ def create_post():
     if request.method == 'POST':
         title = request.form.get('titulo')
         text = request.form.get('texto')
-        files = request.files.getlist("ourfile")  # get a list of all uploaded files
+        # print(request.files)
+        files = request.files.getlist("ourfile")
         post = Post(title=title, text=text)
         db.session.add(post)
         db.session.flush()  # flush to get the post's ID
-        if len(files) > 0:
+        if files[0].filename != '':
             for f in files:  # iterate over the uploaded files
                 # generate a unique download URL for the file
                 download_url = f"/download2/{post.id}/{f.filename}"
