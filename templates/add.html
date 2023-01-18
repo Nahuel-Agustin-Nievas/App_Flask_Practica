@@ -6,12 +6,37 @@
 <h2> ESCRIBE BLOG POSTS</h2>
 
 
-<form class="login-form" action="{{ url_for ('create_post') }}" method="POST" enctype="multipart/form-data">
+<form class="login-form" action="{{ url_for ('create_post') }}" method="POST" enctype="multipart/form-data"
+    id="form_id">
+    <input type="text" name="titulo" placeholder="titulo">
+    <textarea name="texto" id="" cols="30" rows="10"></textarea>
+    <div id="file-inputs"></div>
+    <button id="add-file-button" type="button">Agregar archivo</button>
+    <input type="submit" name="submit">
+</form>
+
+<!-- <script src="{{url_for('static', filename='app.js')}}"></script> -->
+
+
+<script>
+    document.getElementById("add-file-button").addEventListener("click", function(){
+        var file_input = document.createElement("input");
+        file_input.setAttribute("type", "file");
+        file_input.setAttribute("name", "ourfile[]");
+        file_input.setAttribute("multiple", false);
+        document.getElementById("file-inputs").appendChild(file_input);
+    });
+    </script>
+{% endblock %}
+
+
+
+<!-- <form class="login-form" action="{{ url_for ('create_post') }}" method="POST" enctype="multipart/form-data">
 
     <input type="text" name="titulo" placeholder="titulo">
     <textarea name="texto" id="" cols="30" rows="10"></textarea>
     
-    <input type="file" name="ourfile" multiple>
+    <input type="file" name="ourfile" multiple=false>
     
 
     <input type="submit" name="submit" >
@@ -19,5 +44,4 @@
 
 
 
-</form>
-{% endblock %}
+</form> -->
