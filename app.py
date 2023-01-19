@@ -132,11 +132,14 @@ def create_post():
         db.session.add(post)
         db.session.flush()  # flush to get the post's ID
         if files and files[0].filename != '':
-            for f in files:  # iterate over the uploaded files
-                # generate a unique download URL for the file
-                download_url = f"/download2/{post.id}/{f.filename}"
-                post_file = PostFile(post_id=post.id, filename=f.filename, data=f.read(), download_url=download_url)
-                db.session.add(post_file)
+            for f in files: # iterate over the uploaded files
+                if f.filename.endswith(".pdf") or f.filename.endswith(".txt") or f.filename.endswith(".doc"):
+                    # generate a unique download URL for the file
+                    download_url = f"/download2/{post.id}/{f.filename}"
+                    post_file = PostFile(post_id=post.id, filename=f.filename, data=f.read(), download_url=download_url)
+                    db.session.add(post_file)
+                else:
+                    return "Solo se permiten archivos pdf, txt o doc."
         db.session.commit()
         
     return redirect('/')
