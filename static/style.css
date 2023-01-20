@@ -135,3 +135,58 @@ textarea{
 	font-family: sans-serif;
 
 }
+
+
+
+/* ------------ register -------------------------------- */
+
+  /* Form styles */
+  form {
+	margin: 0 auto;
+	width: 300px;
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
+
+/* Input styles */
+input[type="text"], input[type="password"] {
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+/* Button styles */
+input[type="submit"] {
+	background-color: #4CAF50;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+/* Add hover effect for buttons */
+input[type="submit"]:hover {
+	background-color: #45a049;
+}
+
+
+/* ------------ login -------------------------------- */
+
+.register-button {
+    background-color: #f8770d;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1.6rem;
+}
+
+.register-button:hover {
+    background-color: rgb(240, 161, 16);
+    cursor: pointer;
+}

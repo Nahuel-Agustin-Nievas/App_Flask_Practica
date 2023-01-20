@@ -3,7 +3,7 @@ document.getElementById("add-file-button").addEventListener("click", function ()
     file_input.setAttribute("type", "file");
     file_input.setAttribute("name", "ourfile[]");
     file_input.setAttribute("multiple", false);
-    file_input.setAttribute("accept", ".pdf, .txt, .doc")
+    file_input.setAttribute("accept", ".pdf, .txt, .doc, .jpg, .jpeg, .png");
     document.getElementById("file-inputs").appendChild(file_input);
 });
 

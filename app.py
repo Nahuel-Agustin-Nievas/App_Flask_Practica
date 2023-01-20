@@ -4,6 +4,9 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
+from PIL import Image
+import io
 
 import os
 
@@ -38,20 +41,14 @@ db = SQLAlchemy(app)
 
 # the next line helps with the RuntimeError: Working Outside of Application Context
 app.app_context().push()
+       
 
-# base de datos original
+class User(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
 
-
-# class Post(db.Model):
-#     __tablename__ = "posts"
-#     id = db.Column(db.Integer, primary_key=True)
-#     title = db.Column(db.String, nullable=False)
-#     date = db.Column(db.DateTime, default=datetime.now)
-#     text = db.Column(db.String, nullable=False)
-#     filename = db.Column(db.String(50), nullable=True)
-#     data = db.Column(db.LargeBinary, nullable=True)
-    
-     
 
 class Post(db.Model):
     __tablename__ = "posts"
@@ -67,6 +64,7 @@ class PostFile(db.Model):
     filename = db.Column(db.String(50), nullable=True)
     data = db.Column(db.LargeBinary, nullable=True)
     download_url = db.Column(db.String(200), nullable=True)
+    file_type = db.Column(db.String(10), nullable=True)
 
 
 
@@ -77,47 +75,41 @@ def index():
     return render_template("index.html", posts=posts, post_files=post_files)
 
 
-@app.route('/add') 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        hashed_password = generate_password_hash(password, method='sha256')
+        user = User(username=username, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect('/login')
+    return render_template('register.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        username = request.form.get('username')
+        password = request.form.get('password')
+        user = User.query.filter_by(username=username).first()
+
+        if user and check_password_hash(user.password, password):
+            # Iniciar sesión del usuario aquí
+            # Redirigir al usuario a la página principal o a una página protegida
+            return redirect('/')
+        else:
+            #     Mostrar un mensaje de error al usuario
+            return "Usuario o contraseña incorrecta"
+    return render_template('login.html')
+
+
+
+@app.route('/add')   
 def add():
     return render_template("add.html") 
-
-
-# @app.route('/create', methods=['POST'])
-# def create_post():
-#     title = request.form.get('titulo')
-#     text = request.form.get('texto')
-#     post = Post(title=title, text=text)
-#     db.session.add(post)
-#     db.session.commit()
-#     if request.method == 'POST':
-#         if "ourfile" not in request.files:
-#             return "The form has no file part."
-#         f = request.files["ourfile"]
-#         if f.filename == "":
-#             return "No File Selected."  
-#         if f and allowed_files(f.filename):
-#             filename = secure_filename(f.filename)
-#             f.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-#             return redirect(url_for("get_file", filename=filename))
-#         return "File not allowed"
-        
-
-#     return redirect('/')
-
-
-# ruta create original: ---------------------
-
-# @app.route('/create', methods=['GET','POST'])
-# def create_post():
-#     if request.method == 'POST':
-#         title = request.form.get('titulo')
-#         text = request.form.get('texto')
-#         f = request.files["ourfile"]
-#         post = Post(title=title, text=text, filename =f.filename, data=f.read())
-#         db.session.add(post)
-#         db.session.commit()
-          
-#     return redirect('/')
 
 
 
@@ -133,13 +125,27 @@ def create_post():
         db.session.flush()  # flush to get the post's ID
         if files and files[0].filename != '':
             for f in files: # iterate over the uploaded files
-                if f.filename.endswith(".pdf") or f.filename.endswith(".txt") or f.filename.endswith(".doc"):
-                    # generate a unique download URL for the file
-                    download_url = f"/download2/{post.id}/{f.filename}"
-                    post_file = PostFile(post_id=post.id, filename=f.filename, data=f.read(), download_url=download_url)
-                    db.session.add(post_file)
+                if f.filename.endswith(".pdf") or f.filename.endswith(".txt") or f.filename.endswith(".doc") or f.filename.endswith(".jpg") or f.filename.endswith(".png"):
+                    if f.filename.endswith(".jpg") or f.filename.endswith(".png") or f.filename.endswith(".jpeg"):
+                        # Open image and resize while maintaining aspect ratio
+                        image = Image.open(f)
+                        file_type = image.format
+                        image.thumbnail((1920, 1080))
+                        # convert image to bytes
+                        img_bytes = io.BytesIO()
+                        image.save(img_bytes, format=image.format)
+                        img_bytes = img_bytes.getvalue()
+                        # generate a unique download URL for the file
+                        download_url = f"/download2/{post.id}/{f.filename}"
+                        post_file = PostFile(post_id=post.id, filename=f.filename, data=img_bytes, download_url=download_url, file_type=file_type)
+                        db.session.add(post_file)
+                    else:
+                        # generate a unique download URL for the file
+                        download_url = f"/download2/{post.id}/{f.filename}"
+                        post_file = PostFile(post_id=post.id, filename=f.filename, data=f.read(), download_url=download_url)
+                        db.session.add(post_file)
                 else:
-                    return "Solo se permiten archivos pdf, txt o doc."
+                    return "Solo se permiten archivos pdf, txt, doc, jpg o png."
         db.session.commit()
         
     return redirect('/')

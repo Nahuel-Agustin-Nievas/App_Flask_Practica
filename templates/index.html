@@ -25,6 +25,9 @@
     <form class="delete-button" action="{{ url_for('download_file', upload_id=post.id, filename=post_file.filename) }}" method="post">
        
      <button value="{{post_file.filename}}" name="post_file_id"> {{ post_file.filename }} </button> 
+ 
+    
+
     </form>
     {% endif %}
 {% endfor %}
