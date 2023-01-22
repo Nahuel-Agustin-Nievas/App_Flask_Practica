@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TO DO APP</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    
+
 </head>
 
 
 
 <body>
 
-    
+
     <header class="main-head">
         <nav>
 
@@ -28,11 +28,17 @@
                 <li>
                     <a href="{{ url_for('add') }}"> Add</a>
                 </li>
+
+                {% if current_user.is_authenticated %}
+                <li>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </li>
+                {% endif %}
             </ul>
         </nav>
     </header>
-   {% block body %}
-   {% endblock %}
+    {% block body %}
+    {% endblock %}
 </body>
 
 </html>

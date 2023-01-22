@@ -2,13 +2,14 @@ from io import BytesIO
 
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify, send_file
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from PIL import Image
 import io
-
 import os
+
 
 
 # configuration of a context path for database
@@ -32,12 +33,22 @@ def allowed_files(filename):
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
 app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = SECRET_KEY
 db = SQLAlchemy(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
+
+
+#the following lines helps with the redirection to the login page in case that the user does not have signed up
+login_manager.login_view = "login"
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 # the next line helps with the RuntimeError: Working Outside of Application Context
 app.app_context().push()
@@ -48,11 +59,23 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    posts = db.relationship("Post", backref="author", lazy=True)
+    is_active = db.Column(db.Boolean, default=True)
+
+    def is_authenticated(self):
+        return True
+
+    def get_id(self):
+        return self.id
+
+    def is_active(self):
+        return True
 
 
 class Post(db.Model):
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     title = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, default=datetime.now)
     text = db.Column(db.String, nullable=False)
@@ -68,7 +91,7 @@ class PostFile(db.Model):
 
 
 
-@app.route('/') 
+@app.route('/')
 def index():
     posts = Post.query.order_by(Post.date.desc()).all()
     post_files = PostFile.query.all()
@@ -97,30 +120,36 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if user and check_password_hash(user.password, password):
-            # Iniciar sesión del usuario aquí
-            # Redirigir al usuario a la página principal o a una página protegida
+            login_user(user)
             return redirect('/')
         else:
-            #     Mostrar un mensaje de error al usuario
             return "Usuario o contraseña incorrecta"
     return render_template('login.html')
+    
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 
 
-@app.route('/add')   
+@app.route('/add')
+@login_required   
 def add():
     return render_template("add.html") 
 
 
 
 @app.route('/create', methods=['GET','POST'])
+@login_required
 def create_post():
     if request.method == 'POST':
         title = request.form.get('titulo')
         text = request.form.get('texto')
         # print(request.files)
         files = request.files.getlist("ourfile[]")
-        post = Post(title=title, text=text)
+        post = Post(title=title, text=text, author=current_user)
         db.session.add(post)
         db.session.flush()  # flush to get the post's ID
         if files and files[0].filename != '':
