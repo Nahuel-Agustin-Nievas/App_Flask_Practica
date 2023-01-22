@@ -79,6 +79,8 @@ class Post(db.Model):
     title = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, default=datetime.now)
     text = db.Column(db.String, nullable=False)
+    
+
 
 class PostFile(db.Model):
     __tablename__ = "post_files"
@@ -126,12 +128,11 @@ def login():
             return "Usuario o contraseña incorrecta"
     return render_template('login.html')
     
-
+    
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
-
 
 
 @app.route('/add')
