@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+
+<h1>Borradores</h1>
+
+
+{% for post in drafts %}
+
+<section>
+    <form action="{{ url_for('post_action', post_id=post.id) }}" method="POST">
+        <input type="text" name="title" id="title" value="{{ post.title }}">
+        <input type="text" name="text" id="text" value="{{ post.text }}">
+        <button  name="action" value="edit">Editar</button>
+        <button  name="action" value="publish">Publicar</button>
+    </form>
+    {% for post_file in post_files %}
+    {% if post_file.post_id == post.id %}
+    <form class="delete-button" action="{{ url_for('download_file', upload_id=post.id, filename=post_file.filename) }}" method="post">  
+     <button value="{{post_file.filename}}" name="post_file_id"> {{ post_file.filename }} </button> 
+    </form>
+    <form class="delete-button" action=" {{ url_for('delete_file') }}" method="post">
+        <button value="{{post_file.id}}" name="file_id">Eliminar archivo</button>
+    </form>
+
+    {% endif %}
+    {% endfor %}
+</section>
+
+
+{% endfor %}
+
+
+
+{% endblock %} 
+

@@ -79,6 +79,7 @@ class Post(db.Model):
     title = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, default=datetime.now)
     text = db.Column(db.String, nullable=False)
+    is_published = db.Column(db.Boolean, default=False)
     
 
 
@@ -95,7 +96,7 @@ class PostFile(db.Model):
 
 @app.route('/')
 def index():
-    posts = Post.query.order_by(Post.date.desc()).all()
+    posts = Post.query.filter_by(is_published=True).all()
     post_files = PostFile.query.all()
     return render_template("index.html", posts=posts, post_files=post_files)
 
@@ -148,9 +149,13 @@ def create_post():
     if request.method == 'POST':
         title = request.form.get('titulo')
         text = request.form.get('texto')
+        status = request.form.get('status')
+        is_published = False
+        if status == "published":
+            is_published = True
         # print(request.files)
         files = request.files.getlist("ourfile[]")
-        post = Post(title=title, text=text, author=current_user)
+        post = Post(title=title, text=text, author=current_user, is_published=is_published)
         db.session.add(post)
         db.session.flush()  # flush to get the post's ID
         if files and files[0].filename != '':
@@ -178,8 +183,36 @@ def create_post():
                     return "Solo se permiten archivos pdf, txt, doc, jpg o png."
         db.session.commit()
         
-    return redirect('/')
+    return render_template("add.html")
 
+
+
+@app.route('/drafts')
+@login_required
+def drafts():
+    drafts = Post.query.filter(Post.is_published == False, Post.user_id == current_user.id).all()
+    post_files = PostFile.query.all()
+    return render_template("drafts.html", drafts=drafts, post_files=post_files)
+
+
+
+
+@app.route('/post_action/<int:post_id>', methods=['POST'])
+@login_required
+def post_action(post_id):
+    post = Post.query.filter_by(id=post_id, user_id=current_user.id).first()
+    if post:
+        action = request.form.get('action')
+        if action == "publish":
+            post.is_published = True
+            post.title = request.form.get('title')
+            post.text = request.form.get('text')
+            db.session.commit()
+        elif action == "edit":
+            post.title = request.form.get('title')
+            post.text = request.form.get('text')
+            db.session.commit()
+    return redirect(url_for('drafts'))
 
 
 
@@ -195,6 +228,28 @@ def delete():
         db.session.delete(post_file) 
     db.session.commit()
     return redirect('/')
+
+
+@app.route('/delete_draft', methods=['POST'])
+def delete_draft():
+    post_id = request.form.get('post_id')
+    post = db.session.query(Post).filter(Post.id == post_id).first()
+    if post:
+        db.session.delete(post)
+        post_files = db.session.query(PostFile).filter(PostFile.post_id == post_id).all()
+        for post_file in post_files:
+            db.session.delete(post_file) 
+        db.session.commit()
+    return redirect(url_for('drafts'))
+
+
+@app.route('/delete_file', methods=['POST'])
+def delete_file():
+    file_id = request.form.get('file_id')
+    file_to_delete = PostFile.query.filter_by(id=file_id).first()
+    db.session.delete(file_to_delete)
+    db.session.commit()
+    return redirect(url_for('drafts'))
 
 
 # @app.route('/upload', methods=['GET','POST'])
