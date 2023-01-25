@@ -80,6 +80,7 @@ class Post(db.Model):
     date = db.Column(db.DateTime, default=datetime.now)
     text = db.Column(db.String, nullable=False)
     is_published = db.Column(db.Boolean, default=False)
+    is_deleted = db.Column(db.Boolean, default=False)
     
 
 
@@ -263,16 +264,34 @@ def post_action(post_id):
 
 
 
+@app.route('/all_posts')
+@login_required
+def all_posts():
+    posts = Post.query.filter_by(user_id=current_user.id).all()
+    post_files = PostFile.query.all()
+    return render_template("all_posts.html", posts=posts, post_files=post_files)
+
+
+# @app.route('/delete', methods=['POST'])
+# def delete():
+#     post_id = request.form.get('post_id')
+#     post = db.session.query(Post).filter(Post.id == post_id).first()
+#     db.session.delete(post)
+#     post_files= db.session.query(PostFile).filter(PostFile.post_id == post_id).all()
+#     for post_file in post_files:
+#         db.session.delete(post_file) 
+#     db.session.commit()
+#     return redirect('/')
+
 
 
 @app.route('/delete', methods=['POST'])
+@login_required
 def delete():
     post_id = request.form.get('post_id')
     post = db.session.query(Post).filter(Post.id == post_id).first()
-    db.session.delete(post)
-    post_files= db.session.query(PostFile).filter(PostFile.post_id == post_id).all()
-    for post_file in post_files:
-        db.session.delete(post_file) 
+    post.is_deleted = True
+    post.is_published = False
     db.session.commit()
     return redirect('/')
 

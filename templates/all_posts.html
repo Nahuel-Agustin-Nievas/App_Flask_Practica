@@ -4,7 +4,7 @@
 {% block body %}
 
 
-{% for post in posts if post.is_deleted == False %}
+{% for post in posts %}
 <section>
 
     <h3 class="post-title">  {{ post.title }}</h3>
@@ -12,7 +12,12 @@
     <p class="date">Publicado en: {{ post.date.strftime('%d/%m/%Y %H:%M') }}</p>
     <p>{{ post.text }}</p>
     <p>Autor: {{ post.author.username }}</p>
-
+    <p>Estado: 
+        {% if post.is_published == True %} Publicado
+        {% elif post.is_deleted == True %} Eliminado
+        {% else %} Borrador
+        {% endif %}
+    </p>
 
 <form class="delete-button" action=" {{ url_for('delete') }}" method="post">
 
