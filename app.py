@@ -201,16 +201,63 @@ def drafts():
 @login_required
 def post_action(post_id):
     post = Post.query.filter_by(id=post_id, user_id=current_user.id).first()
+    files = request.files.getlist("ourfile[]")
     if post:
         action = request.form.get('action')
         if action == "publish":
             post.is_published = True
             post.title = request.form.get('title')
             post.text = request.form.get('text')
+            if files and files[0].filename != '':
+                for f in files: # iterate over the uploaded files
+                    if f.filename.endswith(".pdf") or f.filename.endswith(".txt") or f.filename.endswith(".doc") or f.filename.endswith(".jpg") or f.filename.endswith(".png"):
+                        if f.filename.endswith(".jpg") or f.filename.endswith(".png") or f.filename.endswith(".jpeg"):
+                            # Open image and resize while maintaining aspect ratio
+                            image = Image.open(f)
+                            file_type = image.format
+                            image.thumbnail((1920, 1080))
+                            # convert image to bytes
+                            img_bytes = io.BytesIO()
+                            image.save(img_bytes, format=image.format)
+                            img_bytes = img_bytes.getvalue()
+                            # generate a unique download URL for the file
+                            download_url = f"/download2/{post.id}/{f.filename}"
+                            post_file = PostFile(post_id=post.id, filename=f.filename, data=img_bytes, download_url=download_url, file_type=file_type)
+                            db.session.add(post_file)
+                        else:
+                            # generate a unique download URL for the file
+                            download_url = f"/download2/{post.id}/{f.filename}"
+                            post_file = PostFile(post_id=post.id, filename=f.filename, data=f.read(), download_url=download_url)
+                            db.session.add(post_file)
+                    else:
+                        return "Solo se permiten archivos pdf, txt, doc, jpg o png."
             db.session.commit()
         elif action == "edit":
             post.title = request.form.get('title')
             post.text = request.form.get('text')
+            if files and files[0].filename != '':
+                for f in files: # iterate over the uploaded files
+                    if f.filename.endswith(".pdf") or f.filename.endswith(".txt") or f.filename.endswith(".doc") or f.filename.endswith(".jpg") or f.filename.endswith(".png"):
+                        if f.filename.endswith(".jpg") or f.filename.endswith(".png") or f.filename.endswith(".jpeg"):
+                            # Open image and resize while maintaining aspect ratio
+                            image = Image.open(f)
+                            file_type = image.format
+                            image.thumbnail((1920, 1080))
+                            # convert image to bytes
+                            img_bytes = io.BytesIO()
+                            image.save(img_bytes, format=image.format)
+                            img_bytes = img_bytes.getvalue()
+                            # generate a unique download URL for the file
+                            download_url = f"/download2/{post.id}/{f.filename}"
+                            post_file = PostFile(post_id=post.id, filename=f.filename, data=img_bytes, download_url=download_url, file_type=file_type)
+                            db.session.add(post_file)
+                        else:
+                            # generate a unique download URL for the file
+                            download_url = f"/download2/{post.id}/{f.filename}"
+                            post_file = PostFile(post_id=post.id, filename=f.filename, data=f.read(), download_url=download_url)
+                            db.session.add(post_file)
+                    else:
+                        return "Solo se permiten archivos pdf, txt, doc, jpg o png."
             db.session.commit()
     return redirect(url_for('drafts'))
 
