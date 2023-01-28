@@ -11,33 +11,65 @@
 
     <p class="date">Publicado en: {{ post.date.strftime('%d/%m/%Y %H:%M') }}</p>
     <p>{{ post.text }}</p>
-    <p>Autor: {{ post.author.username }}</p>
-
-
-<form class="delete-button" action=" {{ url_for('delete') }}" method="post">
-
-    <button value="{{post.id}}" name="post_id">Borrar Post</button>
-</form>
+    <p class="author" >Autor: {{ post.author.username }}</p>
 
 
 
-{% for post_file in post_files %}
-    {% if post_file.post_id == post.id %}
-    <form class="delete-button" action="{{ url_for('download_file', upload_id=post.id, filename=post_file.filename) }}" method="post">
-       
-     <button value="{{post_file.filename}}" name="post_file_id"> {{ post_file.filename }} </button> 
- 
+
+
+
+
+<div class="container-button">
+
+
     
 
+    {% for post_file in post_files %}
+    {% if post_file.post_id == post.id %}
+    
+    <form class="delete-button " action="{{ url_for('download_file', upload_id=post.id, filename=post_file.filename) }}" method="post">
+       
+     
+ 
+
+     {% if post_file.file_type in ['JPG', 'JPEG', 'PNG'] %}
+     <form action="{{ url_for('download_file', upload_id=post.id, filename=post_file.filename) }}" method="post">
+        <button type="submit" class="img-button">
+            <img src="{{url_for('image', id=post_file.id)}}" name="post_file_id"  alt="{{ post_file.filename }}" class="thumbnail">
+        </button>
     </form>
+
+    
+  
+    <!-- <img src="{{url_for('image', id=post_file.id)}}" alt="{{post_file.filename}}"> -->
+
+    {% else %}
+    <button value="{{post_file.filename}}" name="post_file_id"> {{ post_file.filename }} </button> 
+
     {% endif %}
+
+
+
+    </form>
+
+
+{% endif %}
 {% endfor %}
+</div>
 
+<div class="container-button1">
+    <form class="delete-button1 borrar-izquierda" action=" {{ url_for('delete') }}" method="post">
 
+        <button value="{{post.id}}" name="post_id">Borrar Post</button>
+    </form>
 
+</div>
 </section>
 
 {% endfor %} 
+
+
+
 
 {% endblock %} 
 

@@ -50,9 +50,10 @@ nav ul{
 section{
 	margin: 5vh auto;
 	width: 50%;
-	height: 22vh;
+	/* height: 22vh; */
 	border: 2px solid black;
 	border-radius: 10px;
+	padding: 5px;
 }
 .post-title{
 	font-size: 2.5rem;
@@ -72,12 +73,89 @@ p{
 
 }
 
-.delete-button{
-	margin: 0;
-	padding: 0;
-	margin-top: 5px;
-	margin-left: 10px;
+
+.author {
+
+	padding-top: 13px;
+	font-weight: 600;
+
+
 }
+
+.invisible-btn {
+    display: none;
+    visibility: hidden;
+}
+
+.container-button{
+	display: flex;
+	align-items: flex-end;
+    justify-content: flex-end;
+    text-align: right;
+	flex-wrap: wrap;
+}
+
+
+.delete-button1 {
+    display: flex;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0;
+    margin-top: 5px;
+    margin-left: 10px;
+	border: none;
+	text-align: left; 
+}
+
+.borrar-izquierda{
+    display: block;
+    align-items: flex-end;
+    justify-content: flex-start;
+    margin-top: 5px;
+    margin-left: 10px;
+    border: none;
+    text-align: left;
+}
+
+
+.delete-button{
+    display: block;
+    align-items: flex-end;
+    justify-items: end;
+    margin: 0;
+    padding: 0;
+    margin-top: 2px;
+    margin-left: 2px;
+	border: none;
+	text-align: right; 
+}
+
+
+.img-button{
+	border: none;
+	background: transparent;
+}
+
+.thumbnail{
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin: 5px;
+	padding: 0;
+}
+
+
+
+.thumbnail:hover {
+	cursor: pointer;
+}
+
+
+
+
+
+
 
 /* FORM */
 
@@ -91,10 +169,15 @@ h2{
 	margin-top: 5vh;
 }
 
-form{
+.login-form{
 	margin: 5vh auto;
 	width: 320px;
 	color: steelblue;
+	/* margin: 0 auto; */
+	/* width: 300px; */
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
 
 }
 
@@ -141,13 +224,13 @@ textarea{
 /* ------------ register -------------------------------- */
 
   /* Form styles */
-  form {
+  /* form {
 	margin: 0 auto;
 	width: 300px;
 	padding: 20px;
 	border: 1px solid #ccc;
 	border-radius: 10px;
-}
+} */
 
 /* Input styles */
 input[type="text"], input[type="password"] {

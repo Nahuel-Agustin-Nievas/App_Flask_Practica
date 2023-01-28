@@ -9,6 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from PIL import Image
 import io
 import os
+import imghdr
 
 
 
@@ -90,8 +91,8 @@ class PostFile(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=False)
     filename = db.Column(db.String(50), nullable=True)
     data = db.Column(db.LargeBinary, nullable=True)
-    download_url = db.Column(db.String(200), nullable=True)
     file_type = db.Column(db.String(10), nullable=True)
+    download_url = db.Column(db.String(200), nullable=True)
 
 
 
@@ -161,8 +162,8 @@ def create_post():
         db.session.flush()  # flush to get the post's ID
         if files and files[0].filename != '':
             for f in files: # iterate over the uploaded files
-                if f.filename.endswith(".pdf") or f.filename.endswith(".txt") or f.filename.endswith(".doc") or f.filename.endswith(".jpg") or f.filename.endswith(".png"):
-                    if f.filename.endswith(".jpg") or f.filename.endswith(".png") or f.filename.endswith(".jpeg"):
+                if f.filename.lower().endswith(".pdf") or f.filename.lower().endswith(".txt") or f.filename.lower().endswith(".doc") or f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png"):
+                    if f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png") or f.filename.lower().endswith(".jpeg"):
                         # Open image and resize while maintaining aspect ratio
                         image = Image.open(f)
                         file_type = image.format
@@ -211,8 +212,8 @@ def post_action(post_id):
             post.text = request.form.get('text')
             if files and files[0].filename != '':
                 for f in files: # iterate over the uploaded files
-                    if f.filename.endswith(".pdf") or f.filename.endswith(".txt") or f.filename.endswith(".doc") or f.filename.endswith(".jpg") or f.filename.endswith(".png"):
-                        if f.filename.endswith(".jpg") or f.filename.endswith(".png") or f.filename.endswith(".jpeg"):
+                    if f.filename.lower().endswith(".pdf") or f.filename.lower().endswith(".txt") or f.filename.lower().endswith(".doc") or f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png"):
+                        if f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png") or f.filename.lower().endswith(".jpeg"):
                             # Open image and resize while maintaining aspect ratio
                             image = Image.open(f)
                             file_type = image.format
@@ -238,8 +239,8 @@ def post_action(post_id):
             post.text = request.form.get('text')
             if files and files[0].filename != '':
                 for f in files: # iterate over the uploaded files
-                    if f.filename.endswith(".pdf") or f.filename.endswith(".txt") or f.filename.endswith(".doc") or f.filename.endswith(".jpg") or f.filename.endswith(".png"):
-                        if f.filename.endswith(".jpg") or f.filename.endswith(".png") or f.filename.endswith(".jpeg"):
+                    if f.filename.lower().endswith(".pdf") or f.filename.lower().endswith(".txt") or f.filename.lower().endswith(".doc") or f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png"):
+                        if f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png") or f.filename.lower().endswith(".jpeg"):
                             # Open image and resize while maintaining aspect ratio
                             image = Image.open(f)
                             file_type = image.format
@@ -336,6 +337,47 @@ def delete_file():
 def download():
     post_id = request.form.get('post_download_id')
     return redirect('/download2/' + post_id)
+
+@app.route('/image/<int:id>')
+def image(id):
+    post_file = PostFile.query.get(id)
+    if post_file:
+        return send_file(io.BytesIO(post_file.data), mimetype=f'image/{post_file.file_type.lower()}')
+    else:
+        return "Archivo no encontrado", 404
+    
+
+
+
+
+# @app.route('/image/<int:file_id>')
+# def image(file_id):
+#     post_file = PostFile.query.filter_by(post_id=file_id).first()
+#     if post_file:
+#         return send_file(
+#             io.BytesIO(post_file.data),
+#             mimetype=f'image/{post_file.file_type}',
+#             as_attachment=False,
+#             attachment_filename=post_file.filename
+#         )
+#     else:
+#         return "Image not found", 404
+
+
+
+# @app.route('/image2/<int:file_id>')
+# def image2(file_id):
+#     post_file = PostFile.query.filter_by(id=file_id).first()
+
+#     print(post_file) #imprime el objeto "post_file"
+#     print(post_file.data) #imprime el contenido de la imagen en binario
+#     print(post_file.file_type) #imprime el tipo de archivo
+#     return send_file(
+#         io.BytesIO(post_file.data),
+#         mimetype=f'image/{post_file.file_type}',
+#         as_attachment=True,
+#         attachment_filename=post_file.filename
+#     )
     
 
 
@@ -361,6 +403,7 @@ def download_file(upload_id, filename):
     post_file = PostFile.query.filter_by(post_id=upload_id, filename=filename).first()
     if not post_file:
         return "File not found"
+    print (post_file)
     return send_file(BytesIO(post_file.data), as_attachment=True, download_name=post_file.filename)
     
     
