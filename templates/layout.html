@@ -22,18 +22,18 @@
 
             <ul>
                 <li>
-                    <a href="{{ url_for('index') }}"> Home</a>
+                    <a class="nav-button" href="{{ url_for('index') }}"> Home</a>
                 </li>
 
                 <li>
-                    <a href="{{ url_for('add') }}"> Add</a>
+                    <a class="nav-button" href="{{ url_for('add') }}"> Add</a>
                 </li>
                 <li>
-                    <a href="{{ url_for('drafts') }}"> Borradores</a>
+                    <a class="nav-button" href="{{ url_for('drafts') }}"> Borradores</a>
                 </li>
                 {% if current_user.is_authenticated %}
                 <li>
-                    <a href="{{ url_for('logout') }}">Logout</a>
+                    <a class="nav-button" href="{{ url_for('logout') }}">Logout</a>
                 </li>
                 {% endif %}
             </ul>
