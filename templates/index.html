@@ -52,16 +52,16 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="div1">
+        <div class="div1">  
 
             <div class="container-button1">
+                {% if current_user.id == post.author.id %}
                 <form class="delete-button" action=" {{ url_for('delete') }}" method="post">
 
                     <!-- <button value="{{post.id}}" name="post_id">Borrar Post</button> -->
 
-                    <button value="{{post.id}}" name="post_id" class="delete"><span class="text">Borrar Post</span><span
-                            class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24">
+                    <button value="{{post.id}}" name="post_id" class="delete"><span class="text">Borrar</span>
+                        <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path
                                     d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z">
                                 </path>
@@ -73,7 +73,7 @@
 
 
                 </form>
-
+                {% endif %}
             </div>
         </div>
     </div>

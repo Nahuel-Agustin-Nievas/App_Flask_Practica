@@ -19,11 +19,15 @@
         {% endif %}
     </p>
 
-<form class="delete-button" action=" {{ url_for('delete') }}" method="post">
+<form class="delete-button" action=" {{ url_for('delete_final') }}" method="post">
 
     <button value="{{post.id}}" name="post_id">Borrar Post</button>
 </form>
 
+
+<form class="delete-button4" action="{{ url_for('drafts') }}" method="GET">
+    <button value="{{post.id}}" name="post_id" class="delete">Editar</button>
+</form>
 
 
 {% for post_file in post_files %}
@@ -31,10 +35,11 @@
     <form class="delete-button" action="{{ url_for('download_file', upload_id=post.id, filename=post_file.filename) }}" method="post">
        
      <button value="{{post_file.filename}}" name="post_file_id"> {{ post_file.filename }} </button> 
- 
-    
 
     </form>
+
+
+
     {% endif %}
 {% endfor %}
 

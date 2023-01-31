@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from PIL import Image
 import io
 import os
-import imghdr
+
 
 
 
@@ -27,7 +27,7 @@ UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
 ALLOWED_EXTENSIONS = set(["pdf", "doc", "docx", "txt"])
 
 
-# the next function check the files extension
+# the next function checks the files extension
 
 def allowed_files(filename):
     return "." in filename and filename.rsplit(".", 1)[1] in ALLOWED_EXTENSIONS
@@ -189,11 +189,15 @@ def create_post():
 
 
 
-@app.route('/drafts')
+
+
+@app.route('/drafts', methods=['GET'])
 @login_required
 def drafts():
-    drafts = Post.query.filter(Post.is_published == False, Post.user_id == current_user.id).all()
-    post_files = PostFile.query.all()
+    post_id = request.args.get('post_id')
+    print(post_id)
+    drafts = Post.query.filter_by(id=post_id).all()
+    post_files = PostFile.query.filter_by(post_id=post_id).all()
     return render_template("drafts.html", drafts=drafts, post_files=post_files)
 
 
@@ -208,6 +212,7 @@ def post_action(post_id):
         action = request.form.get('action')
         if action == "publish":
             post.is_published = True
+            post.is_deleted = False
             post.title = request.form.get('title')
             post.text = request.form.get('text')
             if files and files[0].filename != '':
@@ -273,16 +278,16 @@ def all_posts():
     return render_template("all_posts.html", posts=posts, post_files=post_files)
 
 
-# @app.route('/delete', methods=['POST'])
-# def delete():
-#     post_id = request.form.get('post_id')
-#     post = db.session.query(Post).filter(Post.id == post_id).first()
-#     db.session.delete(post)
-#     post_files= db.session.query(PostFile).filter(PostFile.post_id == post_id).all()
-#     for post_file in post_files:
-#         db.session.delete(post_file) 
-#     db.session.commit()
-#     return redirect('/')
+@app.route('/delete_final', methods=['POST'])
+def delete_final():
+    post_id = request.form.get('post_id')
+    post = db.session.query(Post).filter(Post.id == post_id).first()
+    db.session.delete(post)
+    post_files= db.session.query(PostFile).filter(PostFile.post_id == post_id).all()
+    for post_file in post_files:
+        db.session.delete(post_file) 
+    db.session.commit()
+    return redirect('all_posts')
 
 
 
