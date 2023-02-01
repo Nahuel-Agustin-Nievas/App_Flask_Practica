@@ -105,16 +105,20 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    error_message = ""
     if request.method == 'POST':
         username = request.form.get('username')
-        password = request.form.get('password')
-        hashed_password = generate_password_hash(password, method='sha256')
-        user = User(username=username, password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-
-        return redirect('/login')
-    return render_template('register.html')
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            error_message = "Usuario ya existente."
+        else:
+            password = request.form.get('password')
+            hashed_password = generate_password_hash(password, method='sha256')
+            user = User(username=username, password=hashed_password)
+            db.session.add(user)
+            db.session.commit()
+            return redirect('/login')
+    return render_template('register.html', error_message=error_message)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -215,6 +219,7 @@ def post_action(post_id):
             post.is_deleted = False
             post.title = request.form.get('title')
             post.text = request.form.get('text')
+            post.date = datetime.now()
             if files and files[0].filename != '':
                 for f in files: # iterate over the uploaded files
                     if f.filename.lower().endswith(".pdf") or f.filename.lower().endswith(".txt") or f.filename.lower().endswith(".doc") or f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png"):
@@ -242,6 +247,7 @@ def post_action(post_id):
         elif action == "edit":
             post.title = request.form.get('title')
             post.text = request.form.get('text')
+            post.date = datetime.now()
             if files and files[0].filename != '':
                 for f in files: # iterate over the uploaded files
                     if f.filename.lower().endswith(".pdf") or f.filename.lower().endswith(".txt") or f.filename.lower().endswith(".doc") or f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png"):

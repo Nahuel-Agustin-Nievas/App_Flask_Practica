@@ -28,16 +28,24 @@
                 </li>
 
                 <li>
-                    <a class="nav-button" href="{{ url_for('add') }}"> Add</a>
+                    <a class="nav-button" href="{{ url_for('add') }}"> Agregar</a>
                 </li>
                 <li>
-                    <a class="nav-button" href="{{ url_for('drafts') }}"> Borradores</a>
+                    <a class="nav-button" href="{{ url_for('all_posts') }}">Mis Posts</a>
                 </li>
                 {% if current_user.is_authenticated %}
                 <li>
                     <a class="nav-button" href="{{ url_for('logout') }}">Logout</a>
                 </li>
                 {% endif %}
+
+                {% if current_user.is_authenticated == False %}
+                <li>
+                    <a class="nav-button" href="{{ url_for('login') }}">Iniciar Sesión</a>
+                </li>
+                {% endif %}
+                
+
             </ul>
         </nav>
     </header>
