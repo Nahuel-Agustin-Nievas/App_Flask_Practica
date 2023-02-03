@@ -3,23 +3,24 @@
 
 {% block body %}
 
-<h2> ESCRIBE BLOG POSTS</h2>
+<h2 > NUEVO POST</h2>
 
 
-<form class="login-form" action="{{ url_for ('create_post') }}" method="POST" enctype="multipart/form-data"
+
+<div class="add-form">
+<form class="add" action="{{ url_for ('create_post') }}" method="POST" enctype="multipart/form-data"
     id="form_id">
     <input type="text" name="titulo" placeholder="Titulo">
-    <textarea name="texto" id="" cols="30" rows="10" placeholder="Post"></textarea>
-    <div id="file-inputs"></div>
-    <button id="add-file-button" type="button">Agregar archivo</button>
-    <div id="error-message">{{ error_message }}</div>
-    <!-- <input type="submit" name="submit"> -->
+    <textarea name="texto" id="" cols="30" rows="10" placeholder="Post" class="text-area"></textarea>
     <button type="submit" name="status" value="published">Publicar</button>
     <button type="submit" name="status" value="draft">Guardar como borrador</button>
-
+    <div id="file-inputs"></div>
+    <button id="add-file-button" class="add-file"  type="button">Agregar archivo</button>
+    <div id="error-message">{{ error_message }}</div>
+    <!-- <input type="submit" name="submit"> -->
 </form>
-
-<script src="{{url_for('static', filename='app.js')}}"></script>
+</div>
+<!-- <script src="{{url_for('static', filename='app.js')}}"></script> -->
 
 
 {% endblock %}

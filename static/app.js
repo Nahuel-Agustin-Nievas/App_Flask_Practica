@@ -16,8 +16,14 @@ document.getElementById("add-file-button").addEventListener("click", function ()
 });
 
 
-
-
+document.querySelector("form").addEventListener("submit", function(event) {
+    var fileInputs = document.querySelectorAll("input[type='file']");
+    for (var i = 0; i < fileInputs.length; i++) {
+        if (!fileInputs[i].files[0]) {
+            fileInputs[i].parentNode.remove();
+        }
+    }
+});
 
 
 // document.getElementById("add-file-button").addEventListener("click", function () {
@@ -44,3 +50,26 @@ document.getElementById("form_id").addEventListener("submit", function(event) {
 
 
 
+document.querySelector('.dropdown-toggle').addEventListener('click', function(e) {
+    e.preventDefault();
+});
+
+
+
+
+
+
+    function filterPosts() {
+        var statusFilter = document.getElementById("status-filter").value;
+        var postList = document.getElementById("post-list");
+        var postItems = postList.getElementsByClassName("post-item");
+
+        for (var i = 0; i < postItems.length; i++) {
+            var postItem = postItems[i];
+            if (statusFilter === "all" || postItem.getAttribute("data-status") === statusFilter) {
+                postItem.style.display = "block";
+            } else {
+                postItem.style.display = "none";
+            }
+        }
+    }

@@ -24,7 +24,7 @@
 
             <ul>
                 <li>
-                    <a class="nav-button" href="{{ url_for('index') }}"> Home</a>
+                    <a class="nav-button" href="{{ url_for('index') }}"> Inicio </a>
                 </li>
 
                 <li>
@@ -34,8 +34,13 @@
                     <a class="nav-button" href="{{ url_for('all_posts') }}">Mis Posts</a>
                 </li>
                 {% if current_user.is_authenticated %}
-                <li>
-                    <a class="nav-button" href="{{ url_for('logout') }}">Logout</a>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="#">{{ current_user.username }}</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ url_for('logout') }}">Cerrar Sesión</a>
+                        </li>
+                    </ul>
                 </li>
                 {% endif %}
 
@@ -51,6 +56,8 @@
     </header>
     {% block body %}
     {% endblock %}
+
+    <script src="{{url_for('static', filename='app.js')}}"></script>
 </body>
 
 </html>

@@ -3,8 +3,11 @@
 
 {% block body %}
 
-
+<h2 class="title" >Mis Posts</h2>
 {% for post in posts %}
+
+
+
 <section>
 
     <div class="parent">
@@ -18,7 +21,7 @@
             <!-- <p>Autor: {{ post.author.username }}</p> -->
             <p class="status"  >Estado:
                 {% if post.is_published == True %} Publicado
-                {% elif post.is_deleted == True %} Eliminado
+                {% elif post.is_deleted == True %} Archivado
                 {% else %} Borrador
                 {% endif %}
             </p>

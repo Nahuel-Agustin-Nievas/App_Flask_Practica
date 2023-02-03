@@ -6,6 +6,7 @@
 
 html{
 	font-size: 62.5%;
+	font-family: sans-serif;
 }
 
 /* NAV BAR */
@@ -79,6 +80,65 @@ nav ul{
 	list-style: none;
 }
 
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    display: none;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+	
+	}
+
+	.dropdown-menu li {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		margin: 0;
+	  }
+
+
+
+.dropdown:hover .dropdown-menu {
+    display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+	border-radius: 5px;
+	
+}
+
+
+.dropdown-menu a {
+	display: block;
+    padding: 10px;
+	width: 100%;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+  }
+
+
+
+
+
+
+
 #logo{
 	flex: 3 1 50rem;
 }
@@ -151,12 +211,6 @@ p{
     text-align: right;
 	flex-wrap: wrap;
 	margin-top: 5px;
-}
-
-.div2{
-
-	margin-top: 5px;
-	padding-top: ;
 }
 
 
@@ -318,6 +372,7 @@ h2{
 	font-size: 3rem;
 	text-align: center;
 	margin-top: 5vh;
+	margin-bottom: 5vh;
 }
 
 .login-form{
@@ -339,7 +394,7 @@ input{
 
 .login-form input{
 	display: block;
-	margin-top: 25px;
+	margin-top: 15px;
 	width: 100%;
 	border: 2px solid #131c27;
 	border-radius: 5px;
@@ -351,6 +406,45 @@ input{
 	color: white;
 	font-size: 1.8rem;
 }
+
+
+
+.register-button{
+	display: block;
+	margin-top: 25px;
+	width: 100%;
+	border: 2px solid #131c27;
+	border-radius: 5px;
+}
+.register-button[type="submit"]{
+
+	border: none;
+	background-color: #131c27;
+	color: white;
+	font-size: 1.8rem;
+}
+
+/* ------------ login -------------------------------- */
+
+.register-button {
+    background-color: #f8770d;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1.8rem;
+	text-align: center;
+}
+
+.register-button:hover {
+    background-color: rgb(240, 161, 16);
+    cursor: pointer;
+}
+
+
+
+
 
 li{
 
@@ -408,22 +502,6 @@ input[type="submit"]:hover {
 }
 
 
-/* ------------ login -------------------------------- */
-
-.register-button {
-    background-color: #f8770d;
-	color: white;
-	padding: 12px 20px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	font-size: 1.6rem;
-}
-
-.register-button:hover {
-    background-color: rgb(240, 161, 16);
-    cursor: pointer;
-}
 
 
 
@@ -513,11 +591,254 @@ input[type="submit"]:hover {
 
 
 
+/* ------------edit form------------ */
+
+.edit-form {
+	width: 100%;
+	max-width: 600px;
+	margin: 0 auto;
+	text-align: center;
+	padding: 20px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+  .edit-form h3 {
+    margin-bottom: 10px;
+	font-size: large;
+  }
+  .edit-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
 
 
 
+  .two-button {
+    display: flex;
+    justify-content: space-between
+}
 
 
+.save-button {
+	padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+    
+}
+
+.save-button:hover {
+    background-color: rgb(8, 65, 27);
+    cursor: pointer;
+}
+
+
+
+.publish-button {
+	padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+      
+}
+
+.publish-button:hover {
+    background-color: rgb(8, 65, 27);
+    cursor: pointer;
+}
+
+
+.edit-form button.add-file-button {
+    display: block;
+    margin-bottom: 10px;
+	margin-top: 10px;
+	background-color: #454645; 
+    border: none;
+	border-radius: 5px;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+	align-items: center;
+    text-decoration: none;
+	cursor: pointer;
+	margin: 0 auto; 
+	width: fit-content; 
+    
+  }
+
+
+  .edit-form button.add-file-button:hover {
+    background-color: rgb(143, 125, 125);
+    cursor: pointer;
+}
+
+  /* .edit-form button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+  } */
+
+
+  .files-button1 {
+	background-color: #454645; 
+    border: none;
+	border-radius: 5px;
+    color: white;
+    padding: 5px 10px;
+}
+
+.files-button1:hover {
+    background-color: rgb(143, 125, 125);
+    cursor: pointer;
+}
+
+
+.files-button2 {
+	background-color: rgb(199, 36, 36); 
+    border: none;
+	border-radius: 5px;
+    color: white;
+    padding: 5px 10px;
+}
+
+.files-button2:hover {
+    background-color: rgb(199, 36, 36);
+    cursor: pointer;
+}
+.title {
+	text-align: center;
+	margin: 0 auto;
+	display: block;
+	margin-top: 20px;
+	margin-bottom: 20px;
+
+
+}
+
+
+  #error-message {
+    color: red;
+    margin-top: 20px;
+  }
+
+
+  .error-message2 {
+    color: red;
+    margin-top: 20px;
+	text-align: center;
+	justify-content: center;
+	font-weight: bold;
+	font-size: large;
+  }
+
+
+
+  .text-area{
+	width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+	resize: vertical;
+	overflow: auto;
+
+  }
+
+  @media (max-width: 420px) {
+	.edit-form {
+		padding: 10px;
+	}
+
+	.edit-form input[type="text"] {
+		font-size: 14px;
+	}
+}
+
+
+
+/* ------ add page--------- */
+
+.add-form {
+	width: 100%;
+	max-width: 600px;
+	margin: 0 auto;
+	text-align: center;
+	padding: 20px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+  .add-form h3 {
+    margin-bottom: 10px;
+	font-size: large;
+  }
+  .add-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+	
+	.add-file,
+	.add button[type="submit"] {
+	width: 40%;
+	padding: 10px;
+	margin: 10px 0;
+	border-radius: 5px;
+	border: 1px solid gray;
+	background-color: white;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+	}
+	
+	.add-file:hover,
+	.add button[type="submit"]:hover {
+	background-color: lightgray;
+	}
+	
+	#error-message {
+	margin-top: 10px;
+	color: red;
+	font-weight: bold;
+	}
+
+
+.btn {
+	width: 40%;
+	padding: 10px;
+	margin: 10px 0;
+	border-radius: 5px;
+	border: 1px solid gray;
+	background-color: white;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+	color:#131c27;
+	margin-top: 20px;
+	text-align: center;
+	justify-content: center;
+	font-weight: bold;
+	font-size: large;
+	}
+
+	.btn:hover{
+	background-color: lightgray;
+	}
 
 
 
@@ -543,7 +864,10 @@ input[type="submit"]:hover {
 		position: relative;
 		bottom: 0;
 		right: 0;
-		overflow: hidden;
+		display: flex;
+		justify-content: flex-end;
+        align-items: flex-end;
+		
 	}
 
 	.div3 { grid-area: 1 / 1 / 3 / 4;

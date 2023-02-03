@@ -4,26 +4,20 @@
 {% block body %}
 
 
-<h1>Registration</h1>
+<h2 class="title">Nuevo Usuario</h2>
 <form class="login-form" method="POST" action="{{ url_for('register') }}">
-    <label for="username">Username:</label>
+    <label for="username">Usuario:</label>
     <input type="text" id="username" name="username" required>
     <br>
-    <label for="password">Password:</label>
+    <label for="password">Contraseña:</label>
     <input type="password" id="password" name="password" required>
     <br>
-    <input type="submit" value="Register">
-
-
+    <input type="submit" value="Registrarse">
 
     {% if error_message %}
     <p style="color: red">{{ error_message }}</p>
     {% endif %}
 </form>
-
-
-
-
 
 
 {% endblock %}

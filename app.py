@@ -123,6 +123,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error_message = ""
     if request.method == "POST":
         username = request.form.get('username')
         password = request.form.get('password')
@@ -132,8 +133,8 @@ def login():
             login_user(user)
             return redirect('/')
         else:
-            return "Usuario o contraseña incorrecta"
-    return render_template('login.html')
+            error_message = "Usuario o contraseña incorrecta."
+    return render_template('login.html', error_message=error_message)
     
     
 @app.route('/logout')
@@ -152,6 +153,7 @@ def add():
 @app.route('/create', methods=['GET','POST'])
 @login_required
 def create_post():
+    error_message = ""
     if request.method == 'POST':
         title = request.form.get('titulo')
         text = request.form.get('texto')
@@ -186,10 +188,13 @@ def create_post():
                         post_file = PostFile(post_id=post.id, filename=f.filename, data=f.read(), download_url=download_url)
                         db.session.add(post_file)
                 else:
-                    return "Solo se permiten archivos pdf, txt, doc, jpg o png."
+                    error_message = "Solo se permiten archivos pdf, txt, doc, jpg o png."
+                if error_message:
+                    return render_template("add.html", error_message=error_message)
         db.session.commit()
+        return render_template("add.html")
         
-    return render_template("add.html")
+    
 
 
 
@@ -199,7 +204,6 @@ def create_post():
 @login_required
 def drafts():
     post_id = request.args.get('post_id')
-    print(post_id)
     drafts = Post.query.filter_by(id=post_id).all()
     post_files = PostFile.query.filter_by(post_id=post_id).all()
     return render_template("drafts.html", drafts=drafts, post_files=post_files)
@@ -212,6 +216,7 @@ def drafts():
 def post_action(post_id):
     post = Post.query.filter_by(id=post_id, user_id=current_user.id).first()
     files = request.files.getlist("ourfile[]")
+    error_message = ""
     if post:
         action = request.form.get('action')
         if action == "publish":
@@ -242,8 +247,9 @@ def post_action(post_id):
                             post_file = PostFile(post_id=post.id, filename=f.filename, data=f.read(), download_url=download_url)
                             db.session.add(post_file)
                     else:
-                        return "Solo se permiten archivos pdf, txt, doc, jpg o png."
-            db.session.commit()
+                        error_message = "Solo se permiten archivos pdf, txt, doc, jpg o png." 
+                    if error_message:
+                        return render_template("drafts.html", error_message=error_message)
         elif action == "edit":
             post.title = request.form.get('title')
             post.text = request.form.get('text')
@@ -270,9 +276,15 @@ def post_action(post_id):
                             post_file = PostFile(post_id=post.id, filename=f.filename, data=f.read(), download_url=download_url)
                             db.session.add(post_file)
                     else:
-                        return "Solo se permiten archivos pdf, txt, doc, jpg o png."
-            db.session.commit()
-    return redirect(url_for('drafts'))
+                        error_message = "Solo se permiten archivos pdf, txt, doc, jpg o png."
+
+                    if error_message:
+                        return render_template("drafts.html", error_message=error_message)
+    db.session.commit()
+    return redirect(url_for('drafts', post_id=post_id))
+
+    #         db.session.commit()
+    # return redirect(url_for('drafts'))
 
 
 
@@ -325,9 +337,10 @@ def delete_draft():
 def delete_file():
     file_id = request.form.get('file_id')
     file_to_delete = PostFile.query.filter_by(id=file_id).first()
+    post_id = file_to_delete.post_id  
     db.session.delete(file_to_delete)
     db.session.commit()
-    return redirect(url_for('drafts'))
+    return redirect(url_for('drafts', post_id=post_id))  # pasa post_id como argumento
 
 
 # @app.route('/upload', methods=['GET','POST'])
@@ -414,7 +427,7 @@ def download_file(upload_id, filename):
     post_file = PostFile.query.filter_by(post_id=upload_id, filename=filename).first()
     if not post_file:
         return "File not found"
-    print (post_file)
+    # print (post_file)
     return send_file(BytesIO(post_file.data), as_attachment=True, download_name=post_file.filename)
     
     
