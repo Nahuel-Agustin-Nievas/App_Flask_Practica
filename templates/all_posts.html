@@ -6,7 +6,7 @@
 <h2 class="title" >Mis Posts</h2>
 
 
-<form action="{{ url_for('posts') }}" method="get" class="status-select">
+<form action="{{ url_for('posts') }}" method="get" class="status-select" id="status_filter">
     <label for="status-select">Filtrar por estado:</label>
     <select id="status-select" name="status">
       <option value="">Todos</option>

@@ -9,6 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from PIL import Image
 import io
 import os
+import exifread
 
 
 
@@ -43,7 +44,7 @@ login_manager.init_app(app)
 
 
 
-#the following lines helps with the redirection to the login page in case that the user does not have signed up
+#the following lines help with the redirection to the login page in case the user is not logged in
 login_manager.login_view = "login"
 
 
@@ -161,19 +162,23 @@ def create_post():
         is_published = False
         if status == "published":
             is_published = True
-        # print(request.files)
         files = request.files.getlist("ourfile[]")
         post = Post(title=title, text=text, author=current_user, is_published=is_published)
         db.session.add(post)
         db.session.flush()  # flush to get the post's ID
         if files and files[0].filename != '':
             for f in files: # iterate over the uploaded files
-                if f.filename.lower().endswith(".pdf") or f.filename.lower().endswith(".txt") or f.filename.lower().endswith(".doc") or f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png"):
+                if f.filename.lower().endswith(".pdf") or f.filename.lower().endswith(".txt") or f.filename.lower().endswith(".doc") or f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".jpeg") or f.filename.lower().endswith(".png"):
                     if f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png") or f.filename.lower().endswith(".jpeg"):
                         # Open image and resize while maintaining aspect ratio
                         image = Image.open(f)
                         file_type = image.format
-                        image.thumbnail((1920, 1080))
+                        width = image.width
+                        height = image.height
+                        if width > height:
+                            image.thumbnail((1920, 1080))
+                        else:
+                            image.thumbnail((1080, 1920))
                         # convert image to bytes
                         img_bytes = io.BytesIO()
                         image.save(img_bytes, format=image.format)
@@ -227,7 +232,7 @@ def post_action(post_id):
             post.date = datetime.now()
             if files and files[0].filename != '':
                 for f in files: # iterate over the uploaded files
-                    if f.filename.lower().endswith(".pdf") or f.filename.lower().endswith(".txt") or f.filename.lower().endswith(".doc") or f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png"):
+                    if f.filename.lower().endswith(".pdf") or f.filename.lower().endswith(".txt") or f.filename.lower().endswith(".doc") or f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".jpeg") or f.filename.lower().endswith(".png"):
                         if f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png") or f.filename.lower().endswith(".jpeg"):
                             # Open image and resize while maintaining aspect ratio
                             image = Image.open(f)
@@ -256,7 +261,7 @@ def post_action(post_id):
             post.date = datetime.now()
             if files and files[0].filename != '':
                 for f in files: # iterate over the uploaded files
-                    if f.filename.lower().endswith(".pdf") or f.filename.lower().endswith(".txt") or f.filename.lower().endswith(".doc") or f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png"):
+                    if f.filename.lower().endswith(".pdf") or f.filename.lower().endswith(".txt") or f.filename.lower().endswith(".doc") or f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".jpeg") or f.filename.lower().endswith(".png"):
                         if f.filename.lower().endswith(".jpg") or f.filename.lower().endswith(".png") or f.filename.lower().endswith(".jpeg"):
                             # Open image and resize while maintaining aspect ratio
                             image = Image.open(f)
@@ -283,8 +288,7 @@ def post_action(post_id):
     db.session.commit()
     return redirect(url_for('drafts', post_id=post_id))
 
-    #         db.session.commit()
-    # return redirect(url_for('drafts'))
+   
 
 
 
@@ -367,6 +371,12 @@ def delete_file():
     return redirect(url_for('drafts', post_id=post_id))  # pasa post_id como argumento
 
 
+
+
+
+# the following route works only saving the files in a local folder
+
+
 # @app.route('/upload', methods=['GET','POST'])
 # def upload():
 #     if request.method == 'POST':
@@ -396,54 +406,6 @@ def image(id):
     
 
 
-
-
-# @app.route('/image/<int:file_id>')
-# def image(file_id):
-#     post_file = PostFile.query.filter_by(post_id=file_id).first()
-#     if post_file:
-#         return send_file(
-#             io.BytesIO(post_file.data),
-#             mimetype=f'image/{post_file.file_type}',
-#             as_attachment=False,
-#             attachment_filename=post_file.filename
-#         )
-#     else:
-#         return "Image not found", 404
-
-
-
-# @app.route('/image2/<int:file_id>')
-# def image2(file_id):
-#     post_file = PostFile.query.filter_by(id=file_id).first()
-
-#     print(post_file) #imprime el objeto "post_file"
-#     print(post_file.data) #imprime el contenido de la imagen en binario
-#     print(post_file.file_type) #imprime el tipo de archivo
-#     return send_file(
-#         io.BytesIO(post_file.data),
-#         mimetype=f'image/{post_file.file_type}',
-#         as_attachment=True,
-#         attachment_filename=post_file.filename
-#     )
-    
-
-
-#  ruta download2 original ---------------------
-# @app.route('/download2/<upload_id>')
-# def download2(upload_id):
-
-    
-#     # post = Post.query.filter_by(id=upload_id).first()
-#     # post = db.session.query(Post).filter(Post.id == upload_id).first()
-#     # return send_file(BytesIO(post.data), attachment_filename=post.filename, as_attachment= True)
-#     upload = Post.query.filter_by(id=upload_id).first()
-#     if upload.data:
-#         return send_file(BytesIO(upload.data), as_attachment=True, download_name=upload.filename)
-
-#     return  "No file uploaded"
-
-# ---------------------------------------------------------------------------
 
 
 @app.route('/download2/<upload_id>/<filename>', methods=['POST'])

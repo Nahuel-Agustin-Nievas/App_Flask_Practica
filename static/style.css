@@ -1,32 +1,37 @@
-*{
+* {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
 }
 
-html{
+html {
 	font-size: 62.5%;
 	font-family: sans-serif;
 }
 
 /* NAV BAR */
 
-h1{
+h1 {
 	font-size: 2.5rem;
 }
-ul li, p{
+
+ul li,
+p {
 	font-size: 2rem;
 	list-style: none;
 }
-a{
+
+a {
 	text-decoration: none;
 	color: white;
 }
-.main-head{
+
+.main-head {
 	background: #131c27;
 	color: white;
 }
-nav{
+
+nav {
 	min-height: 10vh;
 	display: flex;
 	width: 80%;
@@ -36,7 +41,7 @@ nav{
 }
 
 
-.nav-button{
+.nav-button {
 	position: relative;
 	border: none;
 	background: none;
@@ -49,30 +54,30 @@ nav{
 
 .nav-button:focus,
 .nav-button:hover {
-  color: #fff;
+	color: #fff;
 }
 
 .nav-button:focus:after,
 .nav-button:hover:after {
-  width: 100%;
-  left: 0%;
+	width: 100%;
+	left: 0%;
 }
 
 .nav-button:after {
-  content: "";
-  pointer-events: none;
-  bottom: -2px;
-  left: 50%;
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  background-color: #fff;
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition-duration: 400ms;
-  transition-property: width, left;
+	content: "";
+	pointer-events: none;
+	bottom: -2px;
+	left: 50%;
+	position: absolute;
+	width: 0%;
+	height: 2px;
+	background-color: #fff;
+	transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+	transition-duration: 400ms;
+	transition-property: width, left;
 }
 
-nav ul{
+nav ul {
 	display: flex;
 	/* flex: 1 1 20rem; */
 	justify-content: space-around;
@@ -82,56 +87,56 @@ nav ul{
 
 
 .dropdown {
-    position: relative;
-    display: inline-block;
+	position: relative;
+	display: inline-block;
 }
 
 
 .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1;
-    display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 1;
+	display: none;
 	background-color: rgba(0, 0, 0, 0.8);
 	color: white;
 	text-align: center;
 	justify-content: center;
 	align-items: center;
 	margin: 0;
-	
-	}
 
-	.dropdown-menu li {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100%;
-		margin: 0;
-	  }
+}
+
+.dropdown-menu li {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	margin: 0;
+}
 
 
 
 .dropdown:hover .dropdown-menu {
-    display: flex;
+	display: flex;
 	text-align: center;
 	justify-content: center;
 	align-items: center;
 	margin: 0;
 	border-radius: 5px;
-	
+
 }
 
 
 .dropdown-menu a {
 	display: block;
-    padding: 10px;
+	padding: 10px;
 	width: 100%;
 	text-align: center;
 	justify-content: center;
 	align-items: center;
 	margin: 0;
-  }
+}
 
 
 
@@ -139,20 +144,20 @@ nav ul{
 
 
 
-#logo{
+#logo {
 	flex: 3 1 50rem;
 }
 
 /* SECTION BLOG */
-section{
+section {
 	margin: 5vh auto;
 	width: 50%;
 	/* height: 22vh; */
 	border: 2px solid black;
 	border-radius: 10px;
 	padding: 5px;
-    overflow: visible;
-	
+	overflow: visible;
+
 }
 
 /* @media (max-width: 767px) {
@@ -162,18 +167,20 @@ section{
   } */
 
 
-.post-title{
+.post-title {
 	font-size: 2.5rem;
 	margin: 10px auto 0px;
 	padding: 10px;
 
 }
-.date{
+
+.date {
 	font-size: 1.6rem;
 	padding-top: 0;
 	color: grey;
 }
-p{
+
+p {
 	padding-left: 10px;
 	padding-top: 5px;
 	padding-bottom: 0px;
@@ -190,7 +197,7 @@ p{
 }
 
 
-.status{
+.status {
 
 	padding-top: 13px;
 	font-weight: 600;
@@ -200,15 +207,15 @@ p{
 }
 
 .invisible-btn {
-    display: none;
-    visibility: hidden;
+	display: none;
+	visibility: hidden;
 }
 
-.container-button{
+.container-button {
 	display: flex;
 	align-items: flex-end;
-    justify-content: flex-end;
-    text-align: right;
+	justify-content: flex-end;
+	text-align: right;
 	flex-wrap: wrap;
 	margin-top: 5px;
 }
@@ -217,15 +224,15 @@ p{
 /* -----------delete button---------------- */
 
 
-.delete-button{
-    display: flex;
-    justify-content: flex-start;
-    padding: 0;
-    margin-top: 5px;
-    margin-left: 10px;
+.delete-button {
+	display: flex;
+	justify-content: flex-start;
+	padding: 0;
+	margin-top: 5px;
+	margin-left: 10px;
 	margin-bottom: 5px;
 	border: none;
-	text-align: left; 
+	text-align: left;
 }
 
 .delete {
@@ -237,21 +244,22 @@ p{
 	background: red;
 	border: none;
 	border-radius: 5px;
-	box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
 	background: #e62222;
-   }
-   
-   .delete, .delete span {
+}
+
+.delete,
+.delete span {
 	transition: 200ms;
-   }
-   
-   .delete .text {
+}
+
+.delete .text {
 	transform: translateX(22px);
 	color: white;
 	font-weight: bold;
-   }
-   
-   .delete .icon {
+}
+
+.delete .icon {
 	position: absolute;
 	border-left: 1px solid #c41b1b;
 	transform: translateX(82px);
@@ -260,66 +268,66 @@ p{
 	display: flex;
 	align-items: center;
 	justify-content: center;
-   }
-   
-   .delete svg {
+}
+
+.delete svg {
 	width: 11px;
 	fill: #eee;
-   }
-   
-   .delete:hover {
+}
+
+.delete:hover {
 	background: #ff3636;
-   }
-   
-   .delete:hover .text {
+}
+
+.delete:hover .text {
 	color: transparent;
-   }
-   
-   .delete:hover .icon {
+}
+
+.delete:hover .icon {
 	width: 112px;
 	border-left: none;
 	transform: translateX(0);
-   }
-   
-   .delete:focus {
+}
+
+.delete:focus {
 	outline: none;
-   }
-   
-   .delete:active .icon svg {
+}
+
+.delete:active .icon svg {
 	transform: scale(0.8);
-   }
+}
 
-.container-button1{
-  position: relative;
-  bottom: 0;
-  left: 0;
+.container-button1 {
+	position: relative;
+	bottom: 0;
+	left: 0;
 }
 
 
-.files-button{
-    display: block;
-    align-items: flex-end;
-    justify-items: end;
-    margin: 0;
-    padding: 0;
-    margin-top: 2px;
-    margin-left: 2px;
+.files-button {
+	display: block;
+	align-items: flex-end;
+	justify-items: end;
+	margin: 0;
+	padding: 0;
+	margin-top: 2px;
+	margin-left: 2px;
 	border: none;
-	text-align: right; 
+	text-align: right;
 }
 
 
-.img-button{
+.img-button {
 	border: none;
 	background: transparent;
 }
 
-.thumbnail{
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
-    object-fit: cover;
-    margin: 5px;
+.thumbnail {
+	width: 50px;
+	height: 50px;
+	border-radius: 5px;
+	object-fit: cover;
+	margin: 5px;
 	padding: 0;
 }
 
@@ -334,7 +342,7 @@ p{
 
 /* download button */
 
-.download-button{
+.download-button {
 	width: 112px;
 	height: 37px;
 	margin: 5px;
@@ -342,7 +350,7 @@ p{
 	-moz-border-radius: 13;
 	border: none;
 	border-radius: 5px;
-	box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
 	align-items: center;
 	display: flex;
 	justify-content: center;
@@ -355,11 +363,11 @@ p{
 	font-weight: bold;
 }
 
-  .download-button:hover {
+.download-button:hover {
 	background: #0cc97d;
 	text-decoration: none;
 	cursor: pointer;
-  }
+}
 
 
 /* FORM */
@@ -368,14 +376,14 @@ p{
 /* Start form */
 
 
-h2{
+h2 {
 	font-size: 3rem;
 	text-align: center;
 	margin-top: 5vh;
 	margin-bottom: 5vh;
 }
 
-.login-form{
+.login-form {
 	margin: 5vh auto;
 	width: 320px;
 	color: steelblue;
@@ -387,19 +395,20 @@ h2{
 
 }
 
-input{
+input {
 	padding: 10px;
 	font-size: 1.6rem;
 }
 
-.login-form input{
+.login-form input {
 	display: block;
 	margin-top: 15px;
 	width: 100%;
 	border: 2px solid #131c27;
 	border-radius: 5px;
 }
-.login-form input[type="submit"]{
+
+.login-form input[type="submit"] {
 
 	border: none;
 	background-color: #131c27;
@@ -409,14 +418,15 @@ input{
 
 
 
-.register-button{
+.register-button {
 	display: block;
 	margin-top: 25px;
 	width: 100%;
 	border: 2px solid #131c27;
 	border-radius: 5px;
 }
-.register-button[type="submit"]{
+
+.register-button[type="submit"] {
 
 	border: none;
 	background-color: #131c27;
@@ -427,7 +437,7 @@ input{
 /* ------------ login -------------------------------- */
 
 .register-button {
-    background-color: #f8770d;
+	background-color: #f8770d;
 	color: white;
 	padding: 12px 20px;
 	border: none;
@@ -438,22 +448,22 @@ input{
 }
 
 .register-button:hover {
-    background-color: rgb(240, 161, 16);
-    cursor: pointer;
+	background-color: rgb(240, 161, 16);
+	cursor: pointer;
 }
 
 
 
 
 
-li{
+li {
 
 	margin-top: 0;
 	margin-left: 15px;
 	color: red;
 }
 
-textarea{
+textarea {
 	display: block;
 	margin-top: 25px;
 	border: 2px solid #131c27;
@@ -468,8 +478,8 @@ textarea{
 
 /* ------------ register -------------------------------- */
 
-  /* Form styles */
-  /* form {
+/* Form styles */
+/* form {
 	margin: 0 auto;
 	width: 300px;
 	padding: 20px;
@@ -478,7 +488,8 @@ textarea{
 } */
 
 /* Input styles */
-input[type="text"], input[type="password"] {
+input[type="text"],
+input[type="password"] {
 	width: 100%;
 	padding: 12px;
 	border: 1px solid #ccc;
@@ -508,20 +519,22 @@ input[type="submit"]:hover {
 /* --------- allposts -------------------------------- */
 
 .container-button4 {
-  /* margin-top: 15px; */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  position: relative;;
-  bottom: 0;
-  left: 0;
-  /* margin-top: 5px; */
+	/* margin-top: 15px; */
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	position: relative;
+	;
+	bottom: 0;
+	left: 0;
+	/* margin-top: 5px; */
 }
 
 
 
 
-.delete-button4, .edit-button4 {
+.delete-button4,
+.edit-button4 {
 	padding: 5px 0px 5px 10px;
 }
 
@@ -537,61 +550,62 @@ input[type="submit"]:hover {
 	background: rgb(231, 175, 20);
 	border: none;
 	border-radius: 5px;
-	box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
 	background: rgb(231, 175, 20);
-   }
-   
-   .edit, .edit span {
+}
+
+.edit,
+.edit span {
 	transition: 200ms;
-   }
-   
-   .edit .text {
+}
+
+.edit .text {
 	transform: translateX(22px);
 	color: white;
 	font-weight: bold;
-   }
-   
-   .edit .icon {
+}
+
+.edit .icon {
 	position: absolute;
-	border-left: 1px solid  rgb(177, 133, 12);
+	border-left: 1px solid rgb(177, 133, 12);
 	transform: translateX(82px);
 	height: 30px;
 	width: 30px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-   }
-   
-   .edit svg {
+}
+
+.edit svg {
 	width: 15px;
 	fill: #eee;
-   }
-   
-   .edit:hover {
-	background:  rgb(177, 133, 12);
-   }
-   
-   .edit:hover .text {
+}
+
+.edit:hover {
+	background: rgb(177, 133, 12);
+}
+
+.edit:hover .text {
 	color: transparent;
-   }
-   
-   .edit:hover .icon {
+}
+
+.edit:hover .icon {
 	width: 112px;
 	border-left: none;
 	transform: translateX(0);
-   }
-   
-   .edit:focus {
+}
+
+.edit:focus {
 	outline: none;
-   }
-   
-   .edit:active .icon svg {
+}
+
+.edit:active .icon svg {
 	transform: scale(0.8);
-   }
+}
 
 
 
-   /* -----------filer options----------- */
+/* -----------filer options----------- */
 
 
 
@@ -603,18 +617,18 @@ input[type="submit"]:hover {
 	text-align: center;
 }
 
-.status-select label{
+.status-select label {
 	font-size: 20px;
 	font-weight: bold;
-	}
-	
+}
+
 .status-select select {
 	padding: 5px;
 	font-size: 14px;
 	width: 200px;
-	}
-	
-	.status-select input {
+}
+
+.status-select input {
 	padding: 5px 10px;
 	background-color: #4CAF50;
 	color: white;
@@ -622,7 +636,7 @@ input[type="submit"]:hover {
 	border-radius: 5px;
 	font-size: 14px;
 	cursor: pointer;
-	}
+}
 
 
 
@@ -634,126 +648,119 @@ input[type="submit"]:hover {
 	margin: 0 auto;
 	text-align: center;
 	padding: 20px;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-  }
-  .edit-form h3 {
-    margin-bottom: 10px;
+	background-color: #f2f2f2;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
+
+.edit-form h3 {
+	margin-bottom: 10px;
 	font-size: large;
-  }
-  .edit-form input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+}
+
+.edit-form input[type="text"] {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
 
 
 
-  .two-button {
-    display: flex;
-    justify-content: space-between
+.two-button {
+	display: flex;
+	justify-content: space-between
 }
 
 
 .save-button {
 	padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin: 10px;
-    
+	border-radius: 5px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	cursor: pointer;
+	margin: 10px;
+
 }
 
 .save-button:hover {
-    background-color: rgb(8, 65, 27);
-    cursor: pointer;
+	background-color: rgb(8, 65, 27);
+	cursor: pointer;
 }
 
 
 
 .publish-button {
 	padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin: 10px;
-      
+	border-radius: 5px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	cursor: pointer;
+	margin: 10px;
+
 }
 
 .publish-button:hover {
-    background-color: rgb(8, 65, 27);
-    cursor: pointer;
+	background-color: rgb(8, 65, 27);
+	cursor: pointer;
 }
 
 
 .edit-form button.add-file-button {
-    display: block;
-    margin-bottom: 10px;
+	display: block;
+	margin-bottom: 10px;
 	margin-top: 10px;
-	background-color: #454645; 
-    border: none;
+	background-color: #454645;
+	border: none;
 	border-radius: 5px;
-    color: white;
-    padding: 5px 10px;
-    text-align: center;
+	color: white;
+	padding: 5px 10px;
+	text-align: center;
 	align-items: center;
-    text-decoration: none;
+	text-decoration: none;
 	cursor: pointer;
-	margin: 0 auto; 
-	width: fit-content; 
-    
-  }
+	margin: 0 auto;
+	width: fit-content;
 
-
-  .edit-form button.add-file-button:hover {
-    background-color: rgb(143, 125, 125);
-    cursor: pointer;
 }
 
-  /* .edit-form button {
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin: 10px;
-  } */
+
+.edit-form button.add-file-button:hover {
+	background-color: rgb(143, 125, 125);
+	cursor: pointer;
+}
 
 
-  .files-button1 {
-	background-color: #454645; 
-    border: none;
+.files-button1 {
+	background-color: #454645;
+	border: none;
 	border-radius: 5px;
-    color: white;
-    padding: 5px 10px;
+	color: white;
+	padding: 5px 10px;
 }
 
 .files-button1:hover {
-    background-color: rgb(143, 125, 125);
-    cursor: pointer;
+	background-color: rgb(143, 125, 125);
+	cursor: pointer;
 }
 
 
 .files-button2 {
-	background-color: rgb(199, 36, 36); 
-    border: none;
+	background-color: rgb(199, 36, 36);
+	border: none;
 	border-radius: 5px;
-    color: white;
-    padding: 5px 10px;
+	color: white;
+	padding: 5px 10px;
 }
 
 .files-button2:hover {
-    background-color: rgb(199, 36, 36);
-    cursor: pointer;
+	background-color: rgb(199, 36, 36);
+	cursor: pointer;
 }
+
 .title {
 	text-align: center;
 	margin: 0 auto;
@@ -765,43 +772,34 @@ input[type="submit"]:hover {
 }
 
 
-  #error-message {
-    color: red;
-    margin-top: 20px;
-  }
+#error-message {
+	color: red;
+	margin-top: 20px;
+}
 
 
-  .error-message2 {
-    color: red;
-    margin-top: 20px;
+.error-message2 {
+	color: red;
+	margin-top: 20px;
 	text-align: center;
 	justify-content: center;
 	font-weight: bold;
 	font-size: large;
-  }
+}
 
 
 
-  .text-area{
+.text-area {
 	width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
 	resize: vertical;
 	overflow: auto;
 
-  }
-
-  @media (max-width: 420px) {
-	.edit-form {
-		padding: 10px;
-	}
-
-	.edit-form input[type="text"] {
-		font-size: 14px;
-	}
 }
+
 
 
 
@@ -813,25 +811,27 @@ input[type="submit"]:hover {
 	margin: 0 auto;
 	text-align: center;
 	padding: 20px;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-  }
-  .add-form h3 {
-    margin-bottom: 10px;
-	font-size: large;
-  }
-  .add-form input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+	background-color: #f2f2f2;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
 
-	
-	.add-file,
-	.add button[type="submit"] {
+.add-form h3 {
+	margin-bottom: 10px;
+	font-size: large;
+}
+
+.add-form input[type="text"] {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+
+.add-file,
+.add button[type="submit"] {
 	width: 40%;
 	padding: 10px;
 	margin: 10px 0;
@@ -840,18 +840,18 @@ input[type="submit"]:hover {
 	background-color: white;
 	cursor: pointer;
 	transition: all 0.3s ease-in-out;
-	}
-	
-	.add-file:hover,
-	.add button[type="submit"]:hover {
+}
+
+.add-file:hover,
+.add button[type="submit"]:hover {
 	background-color: lightgray;
-	}
-	
-	#error-message {
+}
+
+#error-message {
 	margin-top: 10px;
 	color: red;
 	font-weight: bold;
-	}
+}
 
 
 .btn {
@@ -863,17 +863,17 @@ input[type="submit"]:hover {
 	background-color: white;
 	cursor: pointer;
 	transition: all 0.3s ease-in-out;
-	color:#131c27;
+	color: #131c27;
 	margin-top: 20px;
 	text-align: center;
 	justify-content: center;
 	font-weight: bold;
 	font-size: large;
-	}
+}
 
-	.btn:hover{
+.btn:hover {
 	background-color: lightgray;
-	}
+}
 
 
 
@@ -884,29 +884,79 @@ input[type="submit"]:hover {
 	grid-column-gap: 4px;
 	grid-row-gap: 12px;
 	position: relative;
+}
+
+.div1 {
+	grid-area: 3 / 1 / 4 / 2;
+	position: relative;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	align-items: flex-end;
+
+}
+
+.div2 {
+	grid-area: 3 / 2 / 4 / 4;
+	position: relative;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+
+}
+
+.div3 {
+	grid-area: 1 / 1 / 3 / 4;
+
+}
+
+
+@media (max-width: 420px) {
+	.edit-form {
+		padding: 10px;
 	}
-	
-	.div1 { grid-area: 3 / 1 / 4 / 2;
-		position: relative;
-		bottom: 0;
-		left: 0;
+
+	.edit-form input[type="text"] {
+		font-size: 14px;
+	}
+
+	nav {
+		min-height: 10vh;
 		display: flex;
-        align-items: flex-end;
-		
-	}
-	.div2 {
-		grid-area:  3 / 2 / 4 / 4;
-		position: relative;
-		bottom: 0;
-		right: 0;
-		display: flex;
-		justify-content: flex-end;
-        align-items: flex-end;
-		
+		width: 100%;
+		/* margin: auto; */
+		padding: 2rem;
+		align-items: center;
 	}
 
-	.div3 { grid-area: 1 / 1 / 3 / 4;
-		
-	 }
+	#logo {
+		display: none;
+
+	}
+
+	section {
+		margin: 5vh auto;
+		width: 80%;
+		/* height: 22vh; */
+		border: 2px solid black;
+		border-radius: 10px;
+		padding: 5px;
+		overflow: visible;
+
+	}
 
 
+	#form_id button {
+		width: 100%;
+
+	}
+
+	#status_filter {
+
+		margin: 2px;
+	}
+
+
+}
