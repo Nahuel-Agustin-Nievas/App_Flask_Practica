@@ -4,12 +4,23 @@
 {% block body %}
 
 <h2 class="title" >Mis Posts</h2>
+
+
+<form action="{{ url_for('posts') }}" method="get" class="status-select">
+    <label for="status-select">Filtrar por estado:</label>
+    <select id="status-select" name="status">
+      <option value="">Todos</option>
+      <option value="published">Publicado</option>
+      <option value="archived">Archivado</option>
+      <option value="draft">Borrador</option>
+    </select>
+    <input type="submit" value="Filtrar">
+  </form>
+
+
+
 {% for post in posts %}
-
-
-
 <section>
-
     <div class="parent">
         <div class="div3">
 
@@ -53,11 +64,11 @@
 
         <div class="div1">
 
-            <div class="container-button4">
+            <div class="container-button4" >
                 {% if current_user.id == post.author.id %}
-                <form class="delete-button4" action=" {{ url_for('delete_final') }}" method="post">
+                <form class="delete-button4"  action=" {{ url_for('delete_final') }}" method="post">
 
-                    <button value="{{post.id}}" name="post_id" class="delete"><span class="text">Borrar</span>
+                    <button value="{{post.id}}"  name="post_id" class="delete delete-final" data-post-id="{{post.id}}" ><span class="text">Borrar</span>
                         <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24">
                                 <path

@@ -9,19 +9,18 @@
 {% for post in drafts %}
 
 <div class="edit-form" >
-    <form action="{{ url_for('post_action', post_id=post.id) }}" method="POST" enctype="multipart/form-data"  >
+    <form action="{{ url_for('post_action', post_id=post.id) }}" method="POST" enctype="multipart/form-data" >
         <h3>Editar Título</h3>
-        <input type="text" name="title" id="title" value="{{ post.title }}">
+        <input type="text" name="title" id="title" value="{{ post.title }}" required>
         <h3>Editar Texto</h3>
         <textarea type="text" name="text" id="text" cols="30" rows="10" value="{{ post.text }}"  class="text-area" >{{ post.text }} </textarea>
         
         <div class="two-button">
-        <button  name="action" value="edit"  class="save-button" >Guardar Cambios</button>
-        <button  name="action" value="publish" class="publish-button" >Publicar</button>
+        <button type="submit" name="action" value="edit"  class="save-button" >Guardar Cambios</button>
+        <button type="submit" name="action" value="publish" class="publish-button" >Publicar</button>
          </div>
         <div id="file-inputs"></div>
         <button id="add-file-button" class="add-file-button" type="button">Agregar archivo</button>
-        
     </form>
     {% for post_file in post_files %}
     {% if post_file.post_id == post.id %}

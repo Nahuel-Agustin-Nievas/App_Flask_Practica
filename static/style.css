@@ -591,6 +591,41 @@ input[type="submit"]:hover {
 
 
 
+   /* -----------filer options----------- */
+
+
+
+.status-select {
+	align-items: center;
+	justify-content: center;
+	justify-items: center;
+	align-self: center;
+	text-align: center;
+}
+
+.status-select label{
+	font-size: 20px;
+	font-weight: bold;
+	}
+	
+.status-select select {
+	padding: 5px;
+	font-size: 14px;
+	width: 200px;
+	}
+	
+	.status-select input {
+	padding: 5px 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 14px;
+	cursor: pointer;
+	}
+
+
+
 /* ------------edit form------------ */
 
 .edit-form {

@@ -1,19 +1,50 @@
-document.getElementById("add-file-button").addEventListener("click", function () {
-    var file_input = document.createElement("input");
-    file_input.setAttribute("type", "file");
-    file_input.setAttribute("name", "ourfile[]");
-    file_input.setAttribute("multiple", false);
-    file_input.setAttribute("accept", ".pdf, .txt, .doc, .jpg, .jpeg, .png");
-    var file_input_container = document.createElement("div");
-    var remove_button = document.createElement("button");
-    remove_button.innerHTML = "Eliminar";
-    remove_button.addEventListener("click", function(){
-        file_input_container.remove();
+var buttons = document.querySelectorAll(".delete-final");
+
+for (var i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", function (event) {
+        var post_id = this.getAttribute("data-post-id");
+
+        if (confirm("¿Está seguro de que quiere eliminar este post?")) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/delete_final", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    window.location.href = "/all_posts";
+                }
+            };
+            xhr.send("post_id=" + post_id);
+        }
+
+        else {
+            event.preventDefault();
+        }
     });
-    file_input_container.appendChild(file_input);
-    file_input_container.appendChild(remove_button);
-    document.getElementById("file-inputs").appendChild(file_input_container);
-});
+}
+
+
+if (document.getElementById("add-file-button")) {
+    document.getElementById("add-file-button").addEventListener("click", function () {
+        var file_input = document.createElement("input");
+        file_input.setAttribute("type", "file");
+        file_input.setAttribute("name", "ourfile[]");
+        file_input.setAttribute("multiple", false);
+        file_input.setAttribute("accept", ".pdf, .txt, .doc, .jpg, .jpeg, .png");
+        var file_input_container = document.createElement("div");
+        var remove_button = document.createElement("button");
+        remove_button.innerHTML = "Eliminar";
+        remove_button.addEventListener("click", function(){
+            file_input_container.remove();
+        });
+        file_input_container.appendChild(file_input);
+        file_input_container.appendChild(remove_button);
+        document.getElementById("file-inputs").appendChild(file_input_container);
+    })
+};
+    
+
+
+
 
 
 document.querySelector("form").addEventListener("submit", function(event) {
@@ -24,16 +55,6 @@ document.querySelector("form").addEventListener("submit", function(event) {
         }
     }
 });
-
-
-// document.getElementById("add-file-button").addEventListener("click", function () {
-//     var file_input = document.createElement("input");
-//     file_input.setAttribute("type", "file");
-//     file_input.setAttribute("name", "ourfile[]");
-//     file_input.setAttribute("multiple", false);
-//     file_input.setAttribute("accept", ".pdf, .txt, .doc, .jpg, .jpeg, .png");
-//     document.getElementById("file-inputs").appendChild(file_input);
-// });
 
 
 
@@ -50,26 +71,18 @@ document.getElementById("form_id").addEventListener("submit", function(event) {
 
 
 
-document.querySelector('.dropdown-toggle').addEventListener('click', function(e) {
-    e.preventDefault();
-});
+// document.querySelector('.dropdown-toggle').addEventListener('click', function(e) {
+//     e.preventDefault();
+// });
 
 
-
-
-
-
-    function filterPosts() {
-        var statusFilter = document.getElementById("status-filter").value;
-        var postList = document.getElementById("post-list");
-        var postItems = postList.getElementsByClassName("post-item");
-
-        for (var i = 0; i < postItems.length; i++) {
-            var postItem = postItems[i];
-            if (statusFilter === "all" || postItem.getAttribute("data-status") === statusFilter) {
-                postItem.style.display = "block";
-            } else {
-                postItem.style.display = "none";
-            }
-        }
+document.getElementById("form_id").addEventListener("submit", function(event) {
+    var titulo = document.getElementsByName("titulo")[0].value;
+    if (titulo === "") {
+      event.preventDefault();
+      document.getElementById("error-message").innerHTML = "Por favor, ingrese un título.";
     }
+  });
+
+
+

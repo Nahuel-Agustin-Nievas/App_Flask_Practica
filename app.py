@@ -296,6 +296,30 @@ def all_posts():
     return render_template("all_posts.html", posts=posts, post_files=post_files)
 
 
+
+@app.route('/posts', methods=['GET'])
+def posts():
+  status = request.args.get('status')
+  posts = Post.query.filter_by(user_id=current_user.id).all()
+  if status == 'published':
+    posts = Post.query.filter_by(user_id=current_user.id, is_published=True).all()
+    post_files = PostFile.query.all()
+  elif status == 'archived':
+    posts = Post.query.filter_by(user_id=current_user.id, is_deleted=True).all()
+    post_files = PostFile.query.all()
+  elif status == 'draft':
+    posts = Post.query.filter_by(user_id=current_user.id, is_published=False, is_deleted=False).all()
+    post_files = PostFile.query.all()
+  else:
+    posts = Post.query.filter_by(user_id=current_user.id).all()
+    post_files = PostFile.query.all()
+  return render_template('all_posts.html', posts=posts, post_files=post_files)
+
+
+
+
+
+
 @app.route('/delete_final', methods=['POST'])
 def delete_final():
     post_id = request.form.get('post_id')
@@ -436,6 +460,8 @@ def download_file(upload_id, filename):
 # @app.before_first_request
 # def create_tables():
 #     db.create_all()
+
+
 
 
 
