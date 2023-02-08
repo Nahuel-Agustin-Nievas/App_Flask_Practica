@@ -333,7 +333,7 @@ def delete_final():
     for post_file in post_files:
         db.session.delete(post_file) 
     db.session.commit()
-    return redirect('all_posts')
+    return render_template('all_posts.html')
 
 
 
