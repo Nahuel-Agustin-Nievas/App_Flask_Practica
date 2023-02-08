@@ -42,6 +42,10 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 
 #the following lines help with the redirection to the login page in case the user is not logged in
@@ -56,7 +60,7 @@ def load_user(user_id):
 app.app_context().push()
        
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
@@ -72,6 +76,7 @@ class User(db.Model):
 
     def is_active(self):
         return True
+        
 
 
 class Post(db.Model):
