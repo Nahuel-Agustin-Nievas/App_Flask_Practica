@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify, send_file
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify, send_file, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 from datetime import datetime
@@ -9,8 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from PIL import Image
 import io
 import os
-import exifread
-
+import uuid
 
 
 
@@ -38,6 +37,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = SECRET_KEY
+app.secret_key = SECRET_KEY  # linea para testear multiple usuarios
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -124,6 +124,28 @@ def register():
     return render_template('register.html', error_message=error_message)
 
 
+# The following lines are the default login route
+
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     error_message = ""
+#     if request.method == "POST":
+#         username = request.form.get('username')
+#         password = request.form.get('password')
+#         user = User.query.filter_by(username=username).first()
+
+#         if user and check_password_hash(user.password, password):
+#             login_user(user)
+#             return redirect('/')
+#         else:
+#             error_message = "Usuario o contraseña incorrecta."
+#     return render_template('login.html', error_message=error_message)
+    
+    
+
+#new route for login and try multiple users 
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error_message = ""
@@ -133,17 +155,30 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if user and check_password_hash(user.password, password):
+            session_id = str(uuid.uuid4()) # Genera un ID de sesión único
+            session['session_id'] = session_id # Guarda el ID de sesión en la sesión actual
             login_user(user)
             return redirect('/')
         else:
             error_message = "Usuario o contraseña incorrecta."
     return render_template('login.html', error_message=error_message)
-    
-    
+
+
+
+
+
+#the following lines are the default logout routes
+# @app.route('/logout')
+# def logout():
+#     logout_user()
+#     return redirect(url_for('index'))
+
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    session.pop('session_id', None) # Elimina el ID de sesión de la sesión actual
+    return redirect('/')
 
 
 @app.route('/add')
