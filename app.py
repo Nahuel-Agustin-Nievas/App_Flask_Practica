@@ -71,8 +71,10 @@ class User(db.Model, UserMixin):
     def get_id(self):
         return self.id
 
-    def is_active(self):
-        return True
+    def is_user_active(self):
+        return self.is_active
+
+
         
 
 
@@ -97,6 +99,15 @@ class PostFile(db.Model):
     file_type = db.Column(db.String(10), nullable=True)
     download_url = db.Column(db.String(200), nullable=True)
 
+
+# nueva tabla para probar multiple usuarios
+
+class Session(db.Model):
+    __tablename__ = "sessions"
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(db.String(50), unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 @app.route('/')
@@ -157,12 +168,14 @@ def login():
         if user and check_password_hash(user.password, password):
             session_id = str(uuid.uuid4()) # Genera un ID de sesión único
             session['session_id'] = session_id # Guarda el ID de sesión en la sesión actual
+            new_session = Session(session_id=session_id, user_id=user.id)
+            db.session.add(new_session)
+            db.session.commit()
             login_user(user)
             return redirect('/')
         else:
             error_message = "Usuario o contraseña incorrecta."
     return render_template('login.html', error_message=error_message)
-
 
 
 
