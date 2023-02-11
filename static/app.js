@@ -32,6 +32,7 @@ if (document.getElementById("add-file-button")) {
         file_input.setAttribute("accept", ".pdf, .txt, .doc, .jpg, .jpeg, .png");
         var file_input_container = document.createElement("div");
         var remove_button = document.createElement("button");
+        remove_button.id = "remove-button";
         remove_button.innerHTML = "Eliminar";
         remove_button.addEventListener("click", function(){
             file_input_container.remove();

@@ -734,6 +734,10 @@ input[type="submit"]:hover {
 }
 
 
+#remove-button{
+	margin-bottom: 10px;
+}
+
 .files-button1 {
 	background-color: #454645;
 	border: none;
@@ -875,7 +879,9 @@ input[type="submit"]:hover {
 	background-color: lightgray;
 }
 
-
+#filter{
+	margin-top: 5px;
+}
 
 .parent {
 	display: grid;
