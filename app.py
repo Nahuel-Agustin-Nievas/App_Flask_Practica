@@ -37,7 +37,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = SECRET_KEY
-app.secret_key = SECRET_KEY  # linea para testear multiple usuarios
+# app.secret_key = SECRET_KEY  # linea para testear multiple usuarios
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -63,7 +63,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     posts = db.relationship("Post", backref="author", lazy=True)
-    is_active = db.Column(db.Boolean, default=True)
+    # is_active = db.Column(db.Boolean, default=True)
 
     def is_authenticated(self):
         return True
@@ -73,10 +73,7 @@ class User(db.Model, UserMixin):
 
     def is_user_active(self):
         return self.is_active
-
-
-        
-
+ 
 
 class Post(db.Model):
     __tablename__ = "posts"
@@ -102,12 +99,12 @@ class PostFile(db.Model):
 
 # nueva tabla para probar multiple usuarios
 
-class Session(db.Model):
-    __tablename__ = "sessions"
-    id = db.Column(db.Integer, primary_key=True)
-    session_id = db.Column(db.String(50), unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+# class Session(db.Model):
+#     __tablename__ = "sessions"
+#     id = db.Column(db.Integer, primary_key=True)
+#     session_id = db.Column(db.String(50), unique=True, nullable=False)
+#     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+#     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 @app.route('/')
@@ -137,26 +134,6 @@ def register():
 
 # The following lines are the default login route
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     error_message = ""
-#     if request.method == "POST":
-#         username = request.form.get('username')
-#         password = request.form.get('password')
-#         user = User.query.filter_by(username=username).first()
-
-#         if user and check_password_hash(user.password, password):
-#             login_user(user)
-#             return redirect('/')
-#         else:
-#             error_message = "Usuario o contraseña incorrecta."
-#     return render_template('login.html', error_message=error_message)
-    
-    
-
-#new route for login and try multiple users 
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error_message = ""
@@ -166,32 +143,52 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if user and check_password_hash(user.password, password):
-            session_id = str(uuid.uuid4()) # Genera un ID de sesión único
-            session['session_id'] = session_id # Guarda el ID de sesión en la sesión actual
-            new_session = Session(session_id=session_id, user_id=user.id)
-            db.session.add(new_session)
-            db.session.commit()
             login_user(user)
             return redirect('/')
         else:
             error_message = "Usuario o contraseña incorrecta."
     return render_template('login.html', error_message=error_message)
+    
+    
+
+#new route for login and try multiple users 
+
+
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     error_message = ""
+#     if request.method == "POST":
+#         username = request.form.get('username')
+#         password = request.form.get('password')
+#         user = User.query.filter_by(username=username).first()
+
+#         if user and check_password_hash(user.password, password):
+#             session_id = str(uuid.uuid4()) # Genera un ID de sesión único
+#             session['session_id'] = session_id # Guarda el ID de sesión en la sesión actual
+#             new_session = Session(session_id=session_id, user_id=user.id)
+#             db.session.add(new_session)
+#             db.session.commit()
+#             login_user(user)
+#             return redirect('/')
+#         else:
+#             error_message = "Usuario o contraseña incorrecta."
+#     return render_template('login.html', error_message=error_message)
 
 
 
 
-#the following lines are the default logout routes
-# @app.route('/logout')
-# def logout():
-#     logout_user()
-#     return redirect(url_for('index'))
-
+# the following lines are the default logout routes
 @app.route('/logout')
-@login_required
 def logout():
     logout_user()
-    session.pop('session_id', None) # Elimina el ID de sesión de la sesión actual
-    return redirect('/')
+    return redirect(url_for('index'))
+
+# @app.route('/logout')
+# @login_required
+# def logout():
+#     logout_user()
+#     session.pop('session_id', None) # Elimina el ID de sesión de la sesión actual
+#     return redirect('/')
 
 
 @app.route('/add')
@@ -469,14 +466,15 @@ def download_file(upload_id, filename):
     
 
 
-# @app.before_first_request
-# def create_tables():
-#     db.create_all()
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 
 
 
 
 if __name__ == "__main__":
-    db.create_all()
-    app.run(debug=True, port = 7060) 
+    # db.create_all()
+    app.run(debug=True, port = 7060)  
+
